@@ -6,7 +6,15 @@
     <title>Пользователи</title>
 </head>
 <body>
+    <a href="/">Главная</a>
     <h1>Пользователи</h1>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
     <form action="/users" method="get">
         <input type="search" name="query" value="{{ search }}">
         <input type="submit" value="Искать">
@@ -14,25 +22,26 @@
     <table border="1">
         <thead>
             <tr>
-                <th>
-                    ID
-                </th>
-                <th>
-                    Name
-                </th>
-                <th>
-                    Email
-                </th>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th colspan="2">Actions</th>
             </tr>
         </thead>
         <tbody>
             {% for user in users %}
                 <tr>
                     <td>{{user["id"]}}</td>
-                    <td>{{user["name"]}}</td>
+                    <td>{{user["user_name"]}}</td>
                     <td>{{user["email"]}}</td>
+                    <td><a href="{{ url_for("user_edit", id=user['id']) }}">Редактировать</a></td>
+                    <td><form action="{{ url_for('user_delete', id=user.id) }}" method="post"
+                        onsubmit="return confirm('Вы уверены что хотите удалить пользователя? Это действие невозможно отменить.');">
+                        <input type="submit" value="Remove"></td>
                 </tr>
             {% endfor %}
+            <br>
+            <a href="{{ url_for("user_new")}}">Создать пользователя</a>
         </tbody>
     </table>
 </body>

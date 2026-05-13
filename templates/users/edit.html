@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Обновление пользователя</title>
+</head>
+<body>
+    <form action="{{ url_for('user_update', id=user.id) }}" method="post">
+        <input type="hidden" name="_method" value="patch">
+        <div>
+            <label>
+                Имя
+                <input type="text" name="name" value="{{ user.name }}">
+            </label>
+            {% if errors['name'] %}
+                <div>{{ errors['name'] }}</div>
+            {% endif %}
+        </div>
+        <div>
+            <label>
+                Email
+                <input type="email" required name="email" value="{{ user.email }}">
+            </label>
+            {% if errors['email'] %}
+                <div>{{ errors['email'] }}</div>
+            {% endif %}
+        </div>
+        <div>
+            <label>
+                Пароль
+                <input type="password" name="password" value="{{ user.password }}">
+            </label>
+            {% if errors['password'] %}
+                <div>{{ errors['password'] }}</div>
+            {% endif %}
+        </div>
+        <div>
+            <label>
+                Подтверждение пароля
+                <input type="password" name="passwordConfirmation" value="{{ user.passwordConfirmation }}">
+            </label>
+        </div>
+        <input type="submit" value="Update User">
+</body>
+</html>

@@ -9,13 +9,27 @@
         <header>
             <nav id="menu">
                 <ul>
-                <li> <a href="index.html">Главная</a> </li>
                 <li> <a href="about.html">О нас</a> </li>
                 <li> <a href="contact.html">Контакты</a> </li>
                 <li> <a href="users/index">Пользователи</a> </li>
                 <li> <a href="users/new">Регистрация</a> </li>
                 </ul>
             </nav>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            {% if current_user %}
+                <p>Привет, {{ current_user.user_name }}!</p>
+                <form action="{{ url_for('logout') }}" method="post">
+                    <input type="submit" value="Выйти">
+            {% else %}
+                <p>Привет, гость!</p>
+                <a href="{{ url_for('login') }}">Войти</a>
+            {% endif %}
         </header>
 
         <main>

@@ -1,0 +1,22 @@
+name: Python CI
+
+on [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    -name: Install uv
+    uses: actions/setup-python@v5
+
+    -name: Set up Python
+    run: uv python install
+
+    -name Install dependencies
+    run: make sync
+
+    -name: Run linter
+    run: make lint

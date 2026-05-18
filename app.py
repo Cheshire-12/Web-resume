@@ -1,5 +1,5 @@
 import os
-import psycopg2
+from psycopg2.pool import ThreadedConnectionPool
 from flask import (
     Flask, 
     flash, 
@@ -19,7 +19,7 @@ app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
 
 # Соединение с БД
 DATABASE_URL = os.getenv("DATABASE_URL")
-conn = psycopg2.connect(DATABASE_URL)
+conn = ThreadedConnectionPool(1, 10, dsn=DATABASE_URL)
 
 repo = UsersRepository(conn)
 
